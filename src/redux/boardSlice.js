@@ -26,8 +26,10 @@ const boardSlice = createSlice({
             });
         },
         addTask: (state, action) => {
-            const { boardIndex, status, title, subtasks } = action.payload;
+            const { boardIndex, title, status, subtasks } = action.payload;
             const task = { title, subtasks };
+            console.log(status)
+            console.log(state[boardIndex].tasks[status])
             state[boardIndex].tasks[status].push(task);
         },
         setSubtaskCompleted: (state, action) => {

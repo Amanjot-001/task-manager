@@ -1,0 +1,15 @@
+{isExpanded &&
+                <div
+                    className='fixed z-10 flex justify-center items-center inset-0 w-full h-full bg-[#00000043] max-w-1/2'
+                    onClick={handleCardExpand}
+                >
+                    <div
+                        className='flex flex-col justify-center items-center w-max h-max bg-white p-8 rounded-lg gap-4'
+                        ref={cardRef}
+                    >
+                        <div className='font-bold'>
+                            Build ui for onboarding task completed taks h hh a
+                        </div>
+                    </div>
+                </div>
+            }

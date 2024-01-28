@@ -7,11 +7,15 @@ import deleteLogo from '../assets/images/icon-cross.svg';
 const Header = () => {
     const [createTask, setCreateTask] = useState(false);
     const [newTaskName, setNewTaskName] = useState('');
-    const [subTasks, setSubTasks] = useState([{ name: '', completed: false }]);
+    const [subTasks, setSubTasks] = useState([{ title: '', isCompleted: false }]);
     const [currentStatus, setCurrentStatus] = useState('todo');
 
     const taskRef = useRef(null);
     const dispatch = useDispatch();
+    const activeBoardIndex = useSelector((state) => state.boards.findIndex((board) => board.isActive));
+    const activeBoardName = useSelector((state) => {
+        return activeBoardIndex >= 0 ? state.boards[activeBoardIndex].name : "";
+    });
 
     const handleCreateTask = (e) => {
         if (taskRef.current && taskRef.current.contains(e.target)) {
@@ -20,15 +24,28 @@ const Header = () => {
         setCreateTask(prev => !prev);
     }
 
-    const handleSubmit = (e) => { }
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(activeBoardIndex)
+        console.log(newTaskName)
+        console.log(subTasks)
+        console.log(currentStatus)
+
+        dispatch(addTask({ boardIndex: activeBoardIndex, title: newTaskName, status: currentStatus, subtasks: subTasks }));
+
+        setNewTaskName('');
+        setSubTasks([{ title: '', isCompleted: false }]);
+        setCurrentStatus('todo');
+        setCreateTask(false);
+    };
 
     const handleAddSubtask = () => {
-        setSubTasks([...subTasks, { name: '', completed: false }]);
+        setSubTasks([...subTasks, { title: '', isCompleted: false }]);
     }
 
     const handleSubtaskChange = (index, value) => {
         const updatedSubtasks = [...subTasks];
-        updatedSubtasks[index].name = value;
+        updatedSubtasks[index].title = value;
         setSubTasks(updatedSubtasks);
     }
 
@@ -99,9 +116,9 @@ const Header = () => {
                                     onChange={(e) => setCurrentStatus(e.target.value)}
                                     className='p-2 border rounded-md text-sm'
                                 >
-                                    <option value="todo">Todo</option>
-                                    <option value="doing">Doing</option>
-                                    <option value="done">Done</option>
+                                    <option value="Todo">Todo</option>
+                                    <option value="Doing">Doing</option>
+                                    <option value="Done">Done</option>
                                 </select>
                             </label>
 
@@ -120,7 +137,7 @@ const Header = () => {
                     Task Manager
                 </div>
                 <div className="board-name font-bold">
-                    Platform
+                    {activeBoardName}
                 </div>
                 <div
                     className="add-task bg-sky-600 text-white p-2 rounded-3xl cursor-pointer"
