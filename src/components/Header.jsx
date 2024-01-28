@@ -1,8 +1,9 @@
 import { useState, useRef } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { addTask } from '../redux/boardSlice';
+import { addTask, deleteBoard, setBoardActive } from '../redux/boardSlice';
 
 import deleteLogo from '../assets/images/icon-cross.svg';
+import deleteBoardIcon from '../assets/images/delete-item.png'
 
 const Header = () => {
     const [createTask, setCreateTask] = useState(false);
@@ -51,6 +52,13 @@ const Header = () => {
         setSubTasks(updatedSubtasks);
     }
 
+    const handleDeleteBoard = () => {
+        if (window.confirm("Are you sure you want to delete this board?")) {
+            dispatch(deleteBoard());
+            dispatch(setBoardActive(0));
+        }
+    }
+
     return (
         <>
             {createTask &&
@@ -59,7 +67,7 @@ const Header = () => {
                     onClick={handleCreateTask}
                 >
                     <div
-                        className='flex flex-col justify-center items-center w-max h-max bg-white p-8 rounded-lg gap-4'
+                        className='flex flex-col justify-center items-center w-max h-max bg-white p-8 rounded-lg gap-4 max-w-[50%]'
                         ref={taskRef}
                     >
                         <div className="font-bold">
@@ -132,8 +140,14 @@ const Header = () => {
                 <div className="logo font-bold text-2xl">
                     Task Manager
                 </div>
-                <div className="board-name font-bold">
+                <div className="board-name font-bold flex items-center gap-2">
                     {activeBoardName}
+                    <img 
+                        src={deleteBoardIcon} 
+                        alt="" 
+                        className='h-4 w-4 cursor-pointer'
+                        onClick={handleDeleteBoard}
+                    />
                 </div>
                 <div
                     className="add-task bg-sky-600 text-white p-2 rounded-3xl cursor-pointer"

@@ -16,7 +16,7 @@ const Display = () => {
                     </div>
                 </div>
                 {activeBoardTasks[0]?.Todo && activeBoardTasks[0]?.Todo.map((task, index) => (
-                    <Card key={index} title={task.title} subtasks={task.subtasks} />
+                    <Card key={index} title={task.title} subtasks={task.subtasks} boardIndex={activeBoardIndex} status={'Todo'} taskIndex={index} />
                 ))}
             </div>
             <div className="doing flex flex-col grow items-start p-4 gap-4">
@@ -27,7 +27,7 @@ const Display = () => {
                     </div>
                 </div>
                 {activeBoardTasks[1]?.Doing && activeBoardTasks[1]?.Doing.map((task, index) => (
-                    <Card key={index} title={task.title} subtasks={task.subtasks} />
+                    <Card key={index} title={task.title} subtasks={task.subtasks} boardIndex={activeBoardIndex} status={'Doing'} taskIndex={index} />
                 ))}
             </div>
             <div className="done flex flex-col grow items-start p-4 gap-4">
@@ -38,7 +38,7 @@ const Display = () => {
                     </div>
                 </div>
                 {activeBoardTasks[2]?.Done && activeBoardTasks[2]?.Done.map((task, index) => (
-                    <Card key={index} title={task.title} subtasks={task.subtasks} />
+                    <Card key={index} title={task.title} subtasks={task.subtasks} boardIndex={activeBoardIndex} status={'Done'} taskIndex={index} />
                 ))}
             </div>
         </div>

@@ -41,7 +41,7 @@ const Sidebar = () => {
                     onClick={handleCreateBoard}
                 >
                     <div
-                        className='flex flex-col justify-center items-center w-max h-max bg-white p-8 rounded-lg gap-4'
+                        className='flex flex-col justify-center items-center w-max h-max bg-white p-8 rounded-lg gap-4 max-w-[50%]'
                         ref={createRef}
                     >
                         <div className='font-bold'>
