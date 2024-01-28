@@ -35,7 +35,7 @@ const Card = ({ title, subtasks, boardIndex, status, taskIndex }) => {
             moveTask({
                 boardIndex,
                 fromStatus: status,
-                toStatus: value, 
+                toStatus: value,
                 taskIndex
             })
         );
@@ -63,28 +63,31 @@ const Card = ({ title, subtasks, boardIndex, status, taskIndex }) => {
                     onClick={handleCardExpand}
                 >
                     <div
-                        className='flex flex-col justify-center items-center w-max h-max bg-white p-8 rounded-lg gap-4 max-w-[50%]'
+                        className='flex flex-col justify-center items-start h-max bg-white p-8 rounded-lg gap-4 w-[30%]'
                         ref={cardRef}
                     >
-                        <div className='font-bold flex items-center justify-between gap-2'>
+                        <div className='font-bold flex items-center justify-between w-full'>
                             {title}
-                            <img 
-                                src={deleteTaskIcon} 
-                                alt="" 
+                            <img
+                                src={deleteTaskIcon}
+                                alt=""
                                 className='w-4 h-4 cursor-pointer'
                                 onClick={handleDeleteTask}
                             />
                         </div>
-                        <label className='flex flex-col mt-4'>
+                        <label className='flex flex-col mt-4 w-full'>
                             <p className="text-sm opacity-50 font-bold">Subtasks ({completedSubtasks.length} of {subtasks.length})</p>
                             {subtasks.map((subtask, index) => (
-                                <div key={index} className="flex items-center mb-2 gap-2">
+                                <div key={index} className="flex items-center mb-2 gap-4 w-full p-2 font-bold bg-[#f4f7fd] rounded-md">
                                     <input
                                         type='checkbox'
                                         checked={subtask.isCompleted}
                                         onChange={() => handleCheckboxChange(index)}
+                                        className="w-4 h-4"
                                     />
-                                    {subtask.title}
+                                    <p className={`${subtask.isCompleted ? 'opacity-50 line-through' : ''}`}>
+                                        {subtask.title}
+                                    </p>
                                 </div>
                             ))}
                         </label>

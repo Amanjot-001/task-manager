@@ -150,7 +150,7 @@ const Header = () => {
                     />
                 </div>
                 <div
-                    className="add-task bg-sky-600 text-white p-2 rounded-3xl cursor-pointer"
+                    className="add-task bg-sky-600 text-white p-2 rounded-3xl cursor-pointer font-bold"
                     onClick={handleCreateTask}
                 >
                     + Add New Task
