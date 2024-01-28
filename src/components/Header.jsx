@@ -26,12 +26,8 @@ const Header = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(activeBoardIndex)
-        console.log(newTaskName)
-        console.log(subTasks)
-        console.log(currentStatus)
 
-        dispatch(addTask({ boardIndex: activeBoardIndex, title: newTaskName, status: currentStatus, subtasks: subTasks }));
+        dispatch(addTask({ boardIndex: activeBoardIndex, title: newTaskName, status: currentStatus.toLowerCase(), subtasks: subTasks }));
 
         setNewTaskName('');
         setSubTasks([{ title: '', isCompleted: false }]);

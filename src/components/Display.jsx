@@ -4,7 +4,7 @@ import Card from "./Card";
 const Display = () => {
     const activeBoardIndex = useSelector((state) => state.boards.findIndex((board) => board.isActive));
     const activeBoardTasks = useSelector((state) => activeBoardIndex >= 0 ? state.boards[activeBoardIndex].tasks : []);
-    // console.log(activeBoardTasks)
+    // console.log(activeBoardTasks[0].Todo)
 
     return (
         <div className="display grid grid-cols-3 w-3/4 bg-[#f4f7fd] grow m-4">

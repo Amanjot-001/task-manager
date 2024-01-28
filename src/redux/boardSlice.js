@@ -28,9 +28,25 @@ const boardSlice = createSlice({
         addTask: (state, action) => {
             const { boardIndex, title, status, subtasks } = action.payload;
             const task = { title, subtasks };
-            console.log(status)
-            console.log(state[boardIndex].tasks[status])
-            state[boardIndex].tasks[status].push(task);
+            // console.log(state[boardIndex].tasks[0]);
+            if(state[boardIndex].tasks[0] === undefined) {
+                state[boardIndex].tasks[0] = { Todo: [] };
+                state[boardIndex].tasks[1] = { Doing: [] };
+                state[boardIndex].tasks[2] = { Done: [] };
+            }
+            switch (status) {
+                case "todo":
+                    state[boardIndex].tasks[0].Todo.push(task);
+                    break;
+                case "doing":
+                    state[boardIndex].tasks[1].Doing.push(task);
+                    break;
+                case "done":
+                    state[boardIndex].tasks[2].Done.push(task);
+                    break;
+                default:
+                    break;
+            }
         },
         setSubtaskCompleted: (state, action) => {
             const { boardIndex, status, taskIndex, subtaskIndex } = action.payload;
