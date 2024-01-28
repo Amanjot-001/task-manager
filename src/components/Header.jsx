@@ -1,4 +1,7 @@
 import { useState, useRef } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { addTask } from '../redux/boardSlice';
+
 import deleteLogo from '../assets/images/icon-cross.svg';
 
 const Header = () => {
@@ -8,6 +11,7 @@ const Header = () => {
     const [currentStatus, setCurrentStatus] = useState('todo');
 
     const taskRef = useRef(null);
+    const dispatch = useDispatch();
 
     const handleCreateTask = (e) => {
         if (taskRef.current && taskRef.current.contains(e.target)) {
