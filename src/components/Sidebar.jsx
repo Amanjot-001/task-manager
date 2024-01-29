@@ -75,7 +75,7 @@ const Sidebar = () => {
                 {Array.isArray(boards) && boards.map((board, index) => (
                     <div
                         key={index}
-                        className={`board flex gap-2 w-max items-center p-4 pe-8 cursor-pointer rounded-e-full hover:bg-sky-100 ${board.isActive ? 'bg-sky-600' : ''}`}
+                        className={`board flex gap-2 w-max items-center p-4 pe-8 cursor-pointer rounded-e-full hover:bg-sky-100 ${board.isActive ? 'bg-sky-600 text-white' : ''}`}
                         onClick={() => handleBoardClick(index)}
                     >
                         <img className='h-4 w-4' src={boardLogo} alt="" />
