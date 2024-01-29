@@ -1,6 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 import data from "../data.json";
 
+const getTask = (status) => {
+    switch (status.toLowerCase()) {
+        case "todo":
+            return { StatusName: "Todo", statusIndex: 0 };
+        case "doing":
+            return { StatusName: "Doing", statusIndex: 1 };
+        case "done":
+            return { StatusName: "Done", statusIndex: 2 };
+        default:
+            break;
+    }
+}
+
 const boardSlice = createSlice({
     name: "boards",
     initialState: data.boards,
@@ -28,93 +41,36 @@ const boardSlice = createSlice({
         addTask: (state, action) => {
             const { boardIndex, title, status, subtasks } = action.payload;
             const task = { title, subtasks };
-            // console.log(state[boardIndex].tasks[0]);
             if (state[boardIndex].tasks[0] === undefined) {
                 state[boardIndex].tasks[0] = { Todo: [] };
                 state[boardIndex].tasks[1] = { Doing: [] };
                 state[boardIndex].tasks[2] = { Done: [] };
             }
-            switch (status) {
-                case "todo":
-                    state[boardIndex].tasks[0].Todo.push(task);
-                    break;
-                case "doing":
-                    state[boardIndex].tasks[1].Doing.push(task);
-                    break;
-                case "done":
-                    state[boardIndex].tasks[2].Done.push(task);
-                    break;
-                default:
-                    break;
-            }
+
+            const { StatusName, statusIndex } = getTask(status);
+            state[boardIndex].tasks[statusIndex][StatusName].push(task);
         },
         setSubtaskCompleted: (state, action) => {
             const { boardIndex, status, taskIndex, subtaskIndex } = action.payload;
-            let subtask;
-            switch (status.toLowerCase()) {
-                case "todo":
-                    subtask = state[boardIndex].tasks[0].Todo[taskIndex].subtasks[subtaskIndex];
-                    break;
-                case "doing":
-                    subtask = state[boardIndex].tasks[1].Doing[taskIndex].subtasks[subtaskIndex];
-                    break;
-                case "done":
-                    subtask = state[boardIndex].tasks[2].Done[taskIndex].subtasks[subtaskIndex];
-                    break;
-                default:
-                    break;
-            }
+            const { StatusName, statusIndex } = getTask(status);
+            const subtask = state[boardIndex].tasks[statusIndex][StatusName][taskIndex].subtasks[subtaskIndex];
             subtask.isCompleted = !subtask.isCompleted;
         },
         moveTask: (state, action) => {
             const { boardIndex, fromStatus, toStatus, taskIndex } = action.payload;
-            let temp, temp2;
-            switch (fromStatus.toLowerCase()) {
-                case "todo":
-                    temp = state[boardIndex].tasks[0].Todo
-                    break;
-                case "doing":
-                    temp = state[boardIndex].tasks[1].Doing
-                    break;
-                case "done":
-                    temp = state[boardIndex].tasks[2].Done
-                    break;
-                default:
-                    break;
-            }
-            switch (toStatus.toLowerCase()) {
-                case "todo":
-                    temp2 = state[boardIndex].tasks[0].Todo
-                    break;
-                case "doing":
-                    temp2 = state[boardIndex].tasks[1].Doing
-                    break;
-                case "done":
-                    temp2 = state[boardIndex].tasks[2].Done
-                    break;
-                default:
-                    break;
-            }
-            const taskToMove = temp[taskIndex];
-            temp.splice(taskIndex, 1);
+            const { StatusName, statusIndex } = getTask(fromStatus);
+            const { StatusName: StatusName2, statusIndex: statusIndex2 } = getTask(toStatus);
+            
+            const taskToMove = state[boardIndex].tasks[statusIndex][StatusName][taskIndex];
+            state[boardIndex].tasks[statusIndex][StatusName].splice(taskIndex, 1);
 
-            temp2.push(taskToMove);
+            state[boardIndex].tasks[statusIndex2][StatusName2].push(taskToMove);
         },
         deleteTask: (state, action) => {
             const { boardIndex, status, taskIndex } = action.payload;
-            switch (status.toLowerCase()) {
-                case "todo":
-                    state[boardIndex].tasks[0].Todo.splice(taskIndex, 1);
-                    break;
-                case "doing":
-                    state[boardIndex].tasks[1].Doing.splice(taskIndex, 1);
-                    break;
-                case "done":
-                    state[boardIndex].tasks[2].Done.splice(taskIndex, 1);
-                    break;
-                default:
-                    break;
-            }
+            const { StatusName, statusIndex } = getTask(status);
+
+            state[boardIndex].tasks[statusIndex][StatusName].splice(taskIndex, 1);
         },
     },
 });
